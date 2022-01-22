@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:instagram_clone/resources/auth_methods.dart';
 import 'package:instagram_clone/screens/signup_screen.dart';
+import 'package:instagram_clone/test/test.dart';
 import 'package:instagram_clone/utils/colors.dart';
+import 'package:instagram_clone/utils/utils.dart';
 import 'package:instagram_clone/widgets/text_field_input.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,12 +17,32 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController ();
   final TextEditingController _passwordController = TextEditingController ();
+  bool _isLoading = false;
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     _emailController;
     _passwordController;
+  }
+  void loginUser() async{
+    setState(() {
+      _isLoading = true;
+    });
+     String res = await AuthMethods().loginUser(
+       email: _emailController.text,
+       password: _passwordController.text);
+        if(res == "success"){
+          Navigator.push(context, 
+          MaterialPageRoute(builder: (context)=> TestPage())
+          );
+        }else{
+          showSnackBar(context, res); 
+        }
+         setState(() {
+      _isLoading = false;
+    });
+     
   }
   @override
   Widget build(BuildContext context) {
@@ -60,22 +83,24 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 24,
               ),
-              Container(
-                child: const Text(
-                  'Log in',
+              InkWell(
+                onTap: loginUser,
+                child: Container(
+                  child: _isLoading ? const Center(child: CircularProgressIndicator(color: primaryColor,),)
+                  : const Text('Log in',),
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  decoration: const ShapeDecoration(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(4)
+                      )
+                    ),
+                    color: blueColor,
+                     ) ,
+                
                 ),
-                width: double.infinity,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                decoration: const ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(4)
-                    )
-                  ),
-                  color: blueColor,
-                   ) ,
-              
               ),
               const SizedBox(
                 height: 12,
