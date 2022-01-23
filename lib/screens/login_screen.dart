@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_clone/resources/auth_methods.dart';
 import 'package:instagram_clone/screens/signup_screen.dart';
-import 'package:instagram_clone/test/test.dart';
 import 'package:instagram_clone/utils/colors.dart';
 import 'package:instagram_clone/utils/utils.dart';
 import 'package:instagram_clone/widgets/text_field_input.dart';
-
 import '../responsive/mobile_screen_layout.dart';
 import '../responsive/responsive_layout_screen.dart';
 import '../responsive/web_screen_layout.dart';
@@ -53,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
      
   }
   void navigateToSignup(){
-    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SignupScreen()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const SignupScreen()));
   }
   @override
   Widget build(BuildContext context) {

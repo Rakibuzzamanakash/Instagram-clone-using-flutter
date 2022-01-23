@@ -9,7 +9,6 @@ import 'package:instagram_clone/screens/login_screen.dart';
 import 'package:instagram_clone/utils/colors.dart';
 import 'package:instagram_clone/utils/utils.dart';
 import 'package:instagram_clone/widgets/text_field_input.dart';
-
 import '../responsive/mobile_screen_layout.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -68,7 +67,7 @@ class _SignupScreenState extends State<SignupScreen> {
         });
   }
   void navigateToLogin(){
-    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LoginScreen()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const LoginScreen()));
   }
   @override
   Widget build(BuildContext context) {
