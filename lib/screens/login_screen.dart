@@ -7,6 +7,10 @@ import 'package:instagram_clone/utils/colors.dart';
 import 'package:instagram_clone/utils/utils.dart';
 import 'package:instagram_clone/widgets/text_field_input.dart';
 
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_layout_screen.dart';
+import '../responsive/web_screen_layout.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({ Key? key }) : super(key: key);
 
@@ -33,9 +37,13 @@ class _LoginScreenState extends State<LoginScreen> {
        email: _emailController.text,
        password: _passwordController.text);
         if(res == "success"){
-          Navigator.push(context, 
-          MaterialPageRoute(builder: (context)=> TestPage())
-          );
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context)=> const ResponsiveLayout(
+                webScreenLayout: WebScreenLayout(), 
+                mobilewScreenLayout: MobileScreenLayout()
+                ),
+            )
+            );
         }else{
           showSnackBar(context, res); 
         }
@@ -43,6 +51,9 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = false;
     });
      
+  }
+  void navigateToSignup(){
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SignupScreen()));
   }
   @override
   Widget build(BuildContext context) {
@@ -119,11 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                   ),
                   GestureDetector(
-                    onTap: (){
-                      Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => SignupScreen())
-                        );
-                    },
+                    onTap: navigateToSignup,
                     child: Container(
                       child: const Text(
                         ' SignUp .',

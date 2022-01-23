@@ -1,13 +1,16 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone/resources/auth_methods.dart';
+import 'package:instagram_clone/responsive/responsive_layout_screen.dart';
+import 'package:instagram_clone/responsive/web_screen_layout.dart';
 import 'package:instagram_clone/screens/login_screen.dart';
 import 'package:instagram_clone/utils/colors.dart';
 import 'package:instagram_clone/utils/utils.dart';
 import 'package:instagram_clone/widgets/text_field_input.dart';
+
+import '../responsive/mobile_screen_layout.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({ Key? key }) : super(key: key);
@@ -51,10 +54,21 @@ class _SignupScreenState extends State<SignupScreen> {
 
         if(res != 'success'){
           showSnackBar(context,res);
+        }else {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context)=> const ResponsiveLayout(
+                webScreenLayout: WebScreenLayout(), 
+                mobilewScreenLayout: MobileScreenLayout()
+                ),
+            )
+            );
         }
         setState(() {
           _isLoading = false;
         });
+  }
+  void navigateToLogin(){
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LoginScreen()));
   }
   @override
   Widget build(BuildContext context) {
@@ -180,11 +194,7 @@ class _SignupScreenState extends State<SignupScreen> {
                    padding: const EdgeInsets.symmetric(vertical: 8),
                  ),
                  GestureDetector(
-                   onTap: (){
-                     Navigator.push(
-                       context, MaterialPageRoute(builder: (context)=> const LoginScreen()),
-                       );
-                   },
+                   onTap: navigateToLogin,
                    child: Container(
                      child: const Text(
                        ' Login .',
