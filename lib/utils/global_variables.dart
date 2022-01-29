@@ -4,9 +4,9 @@ import 'package:instagram_clone/screens/add_post_screen.dart';
 const webScreenSize = 600;
 
 const homeScreenItems = [
-             Text('feed'),
-             Text('search'),
+             Center(child: Text('feed')),
+             Center(child: Text('search')),
              AddPostScreen(),
-             Text('notification'),
-             Text('profile'),
+             Center(child: Text('notification')),
+             Center(child: Text('profile')),
 ];

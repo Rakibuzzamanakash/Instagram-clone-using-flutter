@@ -1,5 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:instagram_clone/models/user.dart';
+import 'package:instagram_clone/providers/user_provider.dart';
 import 'package:instagram_clone/utils/colors.dart';
+import 'package:instagram_clone/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({ Key? key }) : super(key: key);
@@ -9,15 +16,59 @@ class AddPostScreen extends StatefulWidget {
 }
 
 class _AddPostScreenState extends State<AddPostScreen> {
+  Uint8List? _file;
+  final TextEditingController _descriptionController = TextEditingController();
+  _selectImage(BuildContext context)async{
+    return showDialog(context: context, builder: (context){
+        return SimpleDialog(
+          title: const Text('Create a Post'),
+          children: [
+            SimpleDialogOption(
+              padding: const EdgeInsets.all(20),
+              child: const Text('Take a Photo'),
+              onPressed: () async{
+                Navigator.of(context).pop();
+                Uint8List file = await pickImage(ImageSource.camera);
+                setState(() {
+                  _file = file;
+                });
+              },
+            ),
+            
+            SimpleDialogOption(
+              padding: const EdgeInsets.all(20),
+              child: const Text('Choose from gallery'),
+              onPressed: () async{
+                Navigator.of(context).pop();
+                Uint8List file = await pickImage(ImageSource.gallery);
+                setState(() {
+                  _file = file;
+                });
+              },
+            ),
+            
+            SimpleDialogOption(
+              padding: const EdgeInsets.all(20),
+              child: const Text('Cancle'),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+            ),
+
+          ],
+        );
+    }
+    );
+  }
   @override
   Widget build(BuildContext context) {
-    // return Center(
-    //   child:IconButton(
-    //     onPressed: (){}, 
-    //     icon: Icon(Icons.upload)
-    //     ) ,
-    // );
-    return Scaffold(
+    final User user = Provider.of<UserProvider>(context).getUser;
+    return _file == null? Center(
+      child:IconButton(
+        onPressed: () => _selectImage(context), 
+        icon: Icon(Icons.upload)
+        ) ,
+    ) :  Scaffold(
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
         leading: IconButton(
@@ -45,12 +96,13 @@ class _AddPostScreenState extends State<AddPostScreen> {
             children: [
                CircleAvatar(
                  backgroundImage: NetworkImage(
-                   'https://cdn.pixabay.com/photo/2022/01/21/07/21/ring-tailed-lemur-6954076__340.jpg'
+                   user.photoUrl,
                  ),
                ),
                SizedBox(
                  width: MediaQuery.of(context).size.width *0.4,
                  child: TextField(
+                   controller: _descriptionController,
                    decoration: const InputDecoration(
                      hintText: 'Write a caption....',
                      border: InputBorder.none
@@ -66,9 +118,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                    child: Container(
                      decoration: BoxDecoration(
                        image: DecorationImage(
-                         image: NetworkImage(
-                           'https://cdn.pixabay.com/photo/2022/01/21/07/21/ring-tailed-lemur-6954076__340.jpg'
-                           ),
+                         image: MemoryImage(_file!),
                            fit: BoxFit.fill,
                            alignment: FractionalOffset.topCenter,
                          ),
@@ -76,6 +126,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                    ),
                    ),
                ),
+               const Divider(),
             ],
           ),
         ],
