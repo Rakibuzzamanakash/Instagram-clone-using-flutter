@@ -1,4 +1,5 @@
-import 'package:js/js.dart';
+// import 'package:js/js.dart';
+// import "dart:html"; 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
         //home:,
        home: StreamBuilder(
          stream: FirebaseAuth.instance.authStateChanges(),
-         builder: (context, snapshot){
+         builder: (context,snapshot){
            if(snapshot.connectionState == ConnectionState.active){
              if(snapshot.hasData){
                return const ResponsiveLayout(
@@ -71,6 +72,7 @@ class MyApp extends StatelessWidget {
            }
            return const LoginScreen();
          },
+         
          ),
       ),
     );
