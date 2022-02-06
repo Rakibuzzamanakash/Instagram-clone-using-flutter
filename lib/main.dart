@@ -16,7 +16,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   if(kIsWeb){
    await Firebase.initializeApp(
-    options: const FirebaseOptions(
+      options: const FirebaseOptions(
       apiKey: "AIzaSyBv-sxQNO7dJ7a5vWmyRwzQwrUvIK6UuDI", 
       appId: "1:548434303141:web:bda53ec5b46c862c05554c", 
       messagingSenderId: "548434303141", 
@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         theme:ThemeData.dark().copyWith(
           scaffoldBackgroundColor: mobileBackgroundColor,
         ),
-        //home:,
+       
          home: StreamBuilder(
          stream: FirebaseAuth.instance.authStateChanges(),
          builder: (context,snapshot){
